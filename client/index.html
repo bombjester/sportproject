@@ -1,0 +1,57 @@
+<html ng-app="app">
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+  		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+	<title>test</title>
+	<script>
+		var angular = angular.module('app', ['ngRoute']);
+
+			angular.config(function($routeProvider){
+				$routeProvider
+
+				.when('/' , {
+					templateUrl: 'static/partials/main.html'
+				})
+				.otherwise({
+					redirectTo: '/'
+				});
+			})
+		angular.controller("pull", function($scope, pullfactory){
+			$scope.stats = [];
+			$scope.teamrank = [];
+			pullfactory.pull(function(callback){
+				$scope.stats = callback;
+			});
+			pullfactory.pullteam(function(callback){
+				$scope.teamrank = callback;
+			})
+		})
+		angular.factory("pullfactory", function($http){
+			var functions = {};
+			var stats = [];
+			var teamrank = [];
+			functions.pullteam = function(callback){
+				$http.get('/pullteam').success(function(result){
+					teamrank = result;
+					console.log(teamrank);
+					callback(teamrank);
+				})
+			}
+			functions.pull = function(callback){
+				$http.get("/pull").success(function(result){
+					
+					stats = result;
+					callback(stats);
+				})
+			}
+			return functions;
+		})
+	</script>
+</head>
+<body>
+	
+  <div ng-view="">
+		</div>
+</body>
+</html>

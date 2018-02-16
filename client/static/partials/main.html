@@ -1,0 +1,18 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<center>
+	<h1> Stats page</h1>
+
+	<div ng-controller="pull">
+
+		<h3>{{teamrank.Team}}
+		<h4>{{teamrank.Rank}}</h4>
+		<p>Date Opponent Result Location W/L Div Result  Spread Total Money</p>
+		<p ng-repeat="index in stats">{{index}}</p>
+	</div>
+</center>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "project",
+  "description": "for sports",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "ejs": "1.0.0",
+    "express": "~4.10.0",
+    "mongoose": "^4.4.2",
+    "osmosis": "latest"
+  },
+  "engines": {
+    "node": "8.9.4",
+    "npm": "5.6.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
