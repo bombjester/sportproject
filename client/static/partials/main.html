@@ -10,8 +10,37 @@
 
 		<h3>{{teamrank.Team}}
 		<h4>{{teamrank.Rank}}</h4>
-		<p>Date Opponent Result Location W/L Div Result  Spread Total Money</p>
-		<p ng-repeat="index in stats">{{index}}</p>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Opponent</th>
+					<th>Result</th>
+					<th>Location</th>
+					<th>W/L</th>
+					<th>Div</th>
+					<th>Spread</th>
+					<th>Total</th>
+					<th>Money</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat= "index in stats">
+					<td>{{index.Date}}</td>
+					<td>{{index.Opponent}}</td>
+					<td>{{index.Result}}</td>
+					<td>{{index.Location}}</td>
+					<td>{{index.WL}}</td>
+					<td>{{index.Div}}</td>
+					<td>{{index.Spread}}</td>
+					<td>{{index.Total}}</td>
+					<td>{{index.Money}}</td>
+				</tr>
+			</tbody>
+
+		</table>
+		<!-- <p>Date Opponent Result Location W/L Div Result  Spread Total Money</p>
+		<p ng-repeat="index in stats">{{index}}</p> -->
 	</div>
 </center>
 </body>

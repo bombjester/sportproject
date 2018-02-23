@@ -43,37 +43,81 @@ module.exports = (function() {
             var array = [];
             var teamrank = {};
             var someText = "";
-            var string = "";
-            console.log("get here");
+            
+           
             osmosis.get("https://www.teamrankings.com/nba/team/" + nbateams.NY)
             // .find("table.team-blockup")
             // .set("ranking")
             .find("table.datatable/tbody/tr")
             .set("table")
             .data(function(results){
-                //console.log(results);
-                someText = results.table.replace(/\n/g,'');
-                 //console.log(someText);
+              var array2 = [];
+              var longword = "";
+               // console.log(results);
+                someText = results.table.replace(/\n/g,'|');
+                //console.log(someText.length);
                  string = "";
+
                  for (x in someText){
                     var parseint = Number.parseInt(x);
                    
-                   if (someText[x] == " " && someText[x+1] == " "){
-                     string = "";
-                   }
-                   else if (x == someText.length-1){
-                    string = "";
+                   if (someText[x] != "|"){
+                     
+                     string += someText[x];
+                     if(x == someText.length-1){
+                      array2.push(string.trim());
+                      }
                    }
                    else{
-                    string += someText[x];
+                    
+                  
+                   longword = string.trim();
+                      if(longword != ""){
+                       // console.log(longword + " IS THE LONGWORD");
+                        array2.push(longword);
+                      }
+                    string = "";
                    }
+                  
                  }
-                // console.log(string);
-               array.push(someText);
+
+                 
+                  if(array2.length == 9){
+                    var input ={"Date": array2[0], 
+                                "Opponent": array2[1],
+                                "Result": array2[2],
+                                "Location": array2[3],
+                                "WL": array2[4],
+                                "Div": array2[5],
+                                "Spread": array2[6],
+                                "Total": array2[7],
+                                "Money": array2[8]};
+                    array.push(input);
+                  }
+                  else{
+
+                    input ={"Date": array2[0], 
+                                "Opponent": array2[1],
+                                "Result": array2[2],
+                                "Location": array2[3],
+                                "WL": "--",
+                                "Div": "--",
+                                "Spread": "--",
+                                "Total": "--",
+                                "Money": "--"};
+                    
+                    array.push(input);
+                  }
+
+                 
+                //console.log(array2.length);
+               
             })
             .done(function(){
                res.json(array);
             })
+            
+
         
 
 
@@ -119,6 +163,7 @@ module.exports = (function() {
               string += someText[x];
             }
           }
+
             var object = {Team: nbateams.NY, Rank: string };
             res.json(object);
             })
