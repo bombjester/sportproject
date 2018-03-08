@@ -53,6 +53,9 @@ module.exports = (function() {
             .data(function(results){
               var array2 = [];
               var longword = "";
+              var score1 = "";
+              var score2 = "";
+              var temp = "";
                // console.log(results);
                 someText = results.table.replace(/\n/g,'|');
                 //console.log(someText.length);
@@ -73,7 +76,58 @@ module.exports = (function() {
                   
                    longword = string.trim();
                       if(longword != ""){
-                       // console.log(longword + " IS THE LONGWORD");
+                       //console.log(longword + " IS THE LONGWORD");
+                        
+                        if(longword[0] == "W" && longword[1] != "a"){
+                          temp = "";
+                          //console.log(longword + " is the result ")
+                                for(var i = 2; i <=longword.length-1; i++){
+                                 
+                                  if(longword[i] !== "-"){
+                                    temp += longword[i];
+
+                                  }
+                                  if(i == longword.length-1){
+                                    
+                                    score2 = temp;
+                                  }
+                                  if(longword[i] == "-"){
+                                    
+                                    score1 = temp;
+                                    temp =  "";
+                                  }
+                                  
+                                }
+                          
+                            longword = "Won: " + nbateams.NY + " " + score1 + " - " + score2;
+                          
+                        }
+                        if(longword[0] == "L" && longword[1] != "A"){
+                          temp = "";
+                          //console.log(longword + " is the result ")
+                                for(var i = 2; i <=longword.length-1; i++){
+                                 
+                                  if(longword[i] !== "-"){
+                                    temp += longword[i];
+
+                                  }
+                                  if(i == longword.length-1){
+                                    
+                                    score2 = temp;
+                                  }
+                                  if(longword[i] == "-"){
+                                    
+                                    score1 = temp;
+                                    temp =  "";
+                                  }
+                                  
+                                }
+                          
+                            longword = "Lost: " + nbateams.NY + " " + score1 + " - " + score2;
+                          
+                        }
+
+                       
                         array2.push(longword);
                       }
                     string = "";
@@ -85,7 +139,7 @@ module.exports = (function() {
                   if(array2.length == 9){
                     var input ={"Date": array2[0], 
                                 "Opponent": array2[1],
-                                "Result": array2[2],
+                                "Result": array2[2] + " " + array2[1],
                                 "Location": array2[3],
                                 "WL": array2[4],
                                 "Div": array2[5],
@@ -110,7 +164,7 @@ module.exports = (function() {
                   }
 
                  
-                //console.log(array2.length);
+                //console.log(array2);
                
             })
             .done(function(){
