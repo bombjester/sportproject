@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+var functions = require("./functions.js");
 var osmosis = require('osmosis');
 var nbateams = {
     GSW: "golden-state-warriors",
@@ -34,32 +36,28 @@ var nbateams = {
 
   };
 
-module.exports = {
 
+module.exports = (function() {
+  return{
 
-        pullstats : function (callback, team){
-            
+        pull : function (req,res){
             var array = [];
             var teamrank = {};
             var someText = "";
-            var ranking = [];
+            
            
-            osmosis.get("https://www.teamrankings.com/nba/team/" + team)
-            .find("table.team-blockup")
-            .set("ranking")
+            osmosis.get("https://www.teamrankings.com/nba/team/" + nbateams.NY)
+            // .find("table.team-blockup")
+            // .set("ranking")
             .find("table.datatable/tbody/tr")
             .set("table")
-            //.error(console.log)
-            //.debug(console.log)
             .data(function(results){
               var array2 = [];
               var longword = "";
               var score1 = "";
               var score2 = "";
               var temp = "";
-              
-
-              /// formating the stats
+               // console.log(results);
                 someText = results.table.replace(/\n/g,'|');
                 //console.log(someText.length);
                  string = "";
@@ -102,7 +100,7 @@ module.exports = {
                                   
                                 }
                           
-                            longword = "Won: " + team + " " + score1 + " - " + score2;
+                            longword = "Won: " + nbateams.NY + " " + score1 + " - " + score2;
                           
                         }
                         if(longword[0] == "L" && longword[1] != "A"){
@@ -126,7 +124,7 @@ module.exports = {
                                   
                                 }
                           
-                            longword = "Lost: " + team + " " + score1 + " - " + score2;
+                            longword = "Lost: " + nbateams.NY + " " + score1 + " - " + score2;
                           
                         }
 
@@ -168,51 +166,12 @@ module.exports = {
 
                  
                 //console.log(array2);
-                ranking = results.ranking;
                
             })
             .done(function(){
-              
-              
-              var string = ""
-                      someText = ranking.replace(/(\r\n|\n|\r|\s)/gm,"");
-                      someText = someText.replace(",", "");
-                      
-                      for (x in someText){
-                        
-                        if(someText[x] == ")"){
-                          
-                          string += ") ";
-                        }
-                        else if(someText[x] == "P"){
-                          if (someText[x-1] == "e"){
-                            string+= " P";
-                          }
-                          else if (someText[x-2] == "1" || someText[x-2] == "2" || someText[x-2] == "3" || someText[x-2] == "4" || someText[x-2] == "5" || someText[x-2] == "6" || someText[x-2] == "7" || someText[x-2] == "8" || someText[x-2] == "9" ){
-                            string += " P";
-                            
-                          }
-                          else{
-                            string += someText[x];
-                          }
-                          
-
-                        }
-                        else if(someText[x] == "S"){
-                          string += " S";
-                        }
-                        else{
-
-                          string += someText[x];
-                        }
-                      }
-
-                        var object = {Team: team, Rank: string };
-                        array.push(object);
-                      
-                        callback(array);
+               res.json(array);
             })
-                        
+            
 
         
 
@@ -222,8 +181,8 @@ module.exports = {
 
 
         },
-        pullteam: function(callback, team){
-            osmosis.get("https://www.teamrankings.com/nba/team/" + team)
+        pullteam: function(req,res){
+            osmosis.get("https://www.teamrankings.com/nba/team/" + nbateams.NY)
         .find("table.team-blockup")
         .set("ranking")
         .data(function(results){
@@ -260,12 +219,14 @@ module.exports = {
             }
           }
 
-            var object = {Team: team, Rank: string };
-            callback(object);
+            var object = {Team: nbateams.NY, Rank: string };
+            res.json(object);
             })
             
-        }
+        },
 
 
 
-}
+
+    }
+})();

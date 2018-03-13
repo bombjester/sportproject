@@ -18,14 +18,19 @@
 				});
 			})
 		angular.controller("pull", function($scope, pullfactory){
+
+
 			$scope.stats = [];
 			$scope.teamrank = [];
 			pullfactory.pull(function(callback){
 				$scope.stats = callback;
+				//console.log($scope.stats);
+				//console.log($scope.stats[0][82])
+
 			});
-			pullfactory.pullteam(function(callback){
-				$scope.teamrank = callback;
-			})
+			// pullfactory.pullteam(function(callback){
+			// 	$scope.teamrank = callback;
+			// })
 		})
 		angular.factory("pullfactory", function($http){
 			var functions = {};
@@ -34,7 +39,7 @@
 			functions.pullteam = function(callback){
 				$http.get('/pullteam').success(function(result){
 					teamrank = result;
-					console.log(teamrank);
+					
 					callback(teamrank);
 				})
 			}
